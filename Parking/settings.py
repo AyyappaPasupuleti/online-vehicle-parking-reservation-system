@@ -25,7 +25,7 @@ SECRET_KEY = 'k#)!(x2(go^yk=l2wx@6#s#w=9es^xsf)r$k=v0&aj13w3=iyx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['online-vehicle-parking-reservation.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
