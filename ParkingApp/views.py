@@ -4,7 +4,34 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 import os
-import pymysql
+import sqlite3
+
+class SQLiteConnectionWrapper:
+    def __init__(self, db_path='db.sqlite3'):
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.conn = sqlite3.connect(os.path.join(base_dir, 'db.sqlite3'))
+    
+    def cursor(self):
+        return self.conn.cursor()
+        
+    def commit(self):
+        self.conn.commit()
+        
+    def close(self):
+        self.conn.close()
+        
+    def __enter__(self):
+        return self.conn.__enter__()
+        
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        return self.conn.__exit__(exc_type, exc_val, exc_tb)
+
+class MockPyMySQL:
+    @staticmethod
+    def connect(*args, **kwargs):
+        return SQLiteConnectionWrapper()
+
+pymysql = MockPyMySQL
 from datetime import datetime
 
 global username
